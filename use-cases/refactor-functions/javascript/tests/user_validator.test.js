@@ -1,16 +1,21 @@
 const { validateUserData } = require('../user_validator');
 const { UserStore } = require('../user_store');
 
-describe('validateUserData', () => {
-  let userStore;
+describe('validateUserData', () => 
+{
+   let userStore;
 
-  beforeEach(() => {
+   beforeEach(() => 
+  {
     userStore = new UserStore();
   });
 
-  describe('Registration validation', () => {
-    test('should validate required fields for registration', () => {
-      const userData = {
+    describe('Registration validation', () => 
+  {
+    test('should validate required fields for registration', () => 
+  {
+      const userData = 
+      {
         username: '',
         email: '',
         password: '',
@@ -23,10 +28,13 @@ describe('validateUserData', () => {
       expect(errors).toContain('email is required for registration');
       expect(errors).toContain('password is required for registration');
       expect(errors).toContain('confirmPassword is required for registration');
-    });
+  });
 
-    test('should validate username format', () => {
-      const userData = {
+    test('should validate username format', () =>
+      
+  {
+      const userData = 
+      {
         username: 'a@', // Too short and invalid characters
         email: 'test@example.com',
         password: 'Password123!',
@@ -44,17 +52,21 @@ describe('validateUserData', () => {
       userData.username = 'invalid@username';
       const formatErrors = validateUserData(userData, { isRegistration: true });
       expect(formatErrors).toContain('Username can only contain letters, numbers, and underscores');
-    });
+  });
 
-    test('should detect existing username', () => {
-      const userData = {
+    test('should detect existing username', () => 
+  {
+      const userData = 
+      {
         username: 'existinguser',
         email: 'new@example.com',
         password: 'Password123!',
         confirmPassword: 'Password123!'
       };
 
-      const errors = validateUserData(userData, { 
+      const errors = validateUserData(userData, 
+                                      
+      { 
         isRegistration: true, 
         checkExisting: userStore 
       });
@@ -62,8 +74,10 @@ describe('validateUserData', () => {
       expect(errors).toContain('Username is already taken');
     });
 
-    test('should validate password requirements', () => {
-      const baseUserData = {
+    test('should validate password requirements', () => 
+    {
+      const baseUserData = 
+      {
         username: 'newuser',
         email: 'new@example.com',
         confirmPassword: 'Password123!'
@@ -95,24 +109,31 @@ describe('validateUserData', () => {
       expect(specialErrors).toContain('Password must contain at least one special character');
     });
 
-    test('should validate password confirmation', () => {
-      const userData = {
+    test('should validate password confirmation', () => 
+      
+  {
+      const userData = 
+      
+    {
         username: 'newuser',
         email: 'new@example.com',
         password: 'Password123!',
         confirmPassword: 'DifferentPassword123!'
-      };
+    };
 
       const errors = validateUserData(userData, { isRegistration: true });
       
       expect(errors).toContain('Password and confirmation do not match');
-    });
+  });
   });
 
-  describe('Email validation', () => {
-    test('should validate email format', () => {
+  describe('Email validation', () => 
+  {
+    test('should validate email format', () => 
+      {
       // Invalid email in registration
-      const userData = {
+      const userData = 
+      {
         username: 'newuser',
         email: 'invalid-email',
         password: 'Password123!',
@@ -131,15 +152,19 @@ describe('validateUserData', () => {
       expect(profileErrors).toContain('Email format is invalid');
     });
 
-    test('should detect existing email', () => {
-      const userData = {
+    test('should detect existing email', () => 
+      {
+      const userData = 
+      {
         username: 'newuser',
         email: 'existing@example.com',
         password: 'Password123!',
         confirmPassword: 'Password123!'
       };
 
-      const errors = validateUserData(userData, { 
+      const errors = validateUserData(userData, 
+                                      
+      { 
         isRegistration: true, 
         checkExisting: userStore 
       });
@@ -148,9 +173,12 @@ describe('validateUserData', () => {
     });
   });
 
-  describe('Profile update validation', () => {
-    test('should validate empty fields in profile update', () => {
-      const userData = {
+  describe('Profile update validation', () => 
+    {
+    test('should validate empty fields in profile update', () => 
+      {
+      const userData = 
+      {
         firstName: '',
         lastName: '',
         dateOfBirth: '',
@@ -166,9 +194,12 @@ describe('validateUserData', () => {
     });
   });
 
-  describe('Date of birth validation', () => {
-    test('should validate date format', () => {
-      const userData = {
+  describe('Date of birth validation', () => 
+    {
+    test('should validate date format', () => 
+      {
+      const userData = 
+      {
         dateOfBirth: 'not-a-date'
       };
 
@@ -177,14 +208,16 @@ describe('validateUserData', () => {
       expect(errors).toContain('Date of birth is not a valid date');
     });
 
-    test('should validate date constraints', () => {
+    test('should validate date constraints', () => 
+      {
       const now = new Date();
       
       // Future date
       const futureDate = new Date(now);
       futureDate.setFullYear(futureDate.getFullYear() + 1);
       
-      const futureDateData = {
+      const futureDateData = 
+      {
         dateOfBirth: futureDate.toISOString()
       };
       
@@ -195,7 +228,8 @@ describe('validateUserData', () => {
       const tooYoungDate = new Date(now);
       tooYoungDate.setFullYear(tooYoungDate.getFullYear() - 10);
       
-      const tooYoungData = {
+      const tooYoungData = 
+      {
         dateOfBirth: tooYoungDate.toISOString()
       };
       
@@ -215,9 +249,12 @@ describe('validateUserData', () => {
     });
   });
 
-  describe('Custom validations', () => {
-    test('should run custom validations', () => {
-      const userData = {
+  describe('Custom validations', () => 
+    {
+    test('should run custom validations', () => 
+      {
+      const userData =
+      {
         nickname: 'test'
       };
 
@@ -237,8 +274,10 @@ describe('validateUserData', () => {
     });
   });
 
-  test('should return empty array for valid registration data', () => {
-    const userData = {
+  test('should return empty array for valid registration data', () => 
+    {
+    const userData = 
+    {
       username: 'validuser',
       email: 'valid@example.com',
       password: 'Password123!',
@@ -250,8 +289,10 @@ describe('validateUserData', () => {
     expect(errors).toEqual([]);
   });
 
-  test('should return empty array for valid profile data', () => {
-    const userData = {
+  test('should return empty array for valid profile data', () => 
+    {
+    const userData = 
+    {
       firstName: 'John',
       lastName: 'Doe',
       dateOfBirth: '1990-01-01',
